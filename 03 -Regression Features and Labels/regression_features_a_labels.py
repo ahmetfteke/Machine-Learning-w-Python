@@ -10,6 +10,13 @@ df['PCT_change'] = (df['Adj. Close']  - df['Adj. Open']) / df['Adj. Open']  * 10
 
 df = df[['Adj. Close', 'HL_PCT', 'PCT_change', 'Adj. Volume']]
 
-print(df.head())
-# http://prntscr.com/fi6p9y
+forecast_col = 'Adj. Close'
 
+df.fillna(-99999, inplace=True) # replace null
+
+forecast_out = int(math.ceil(0.01 * len(df)))
+
+df['label'] = df[forecast_col].shift(-forecast_out)
+df.dropna(inplace=True)
+print(df.head()) 
+# http://prntscr.com/fi6snr
